@@ -12,7 +12,6 @@ Roadmap:
 - Remove unused code
 - Increase code and wallet security
 - Add deadline limit
-- Remove unused code
 - Make it ddos-resilient
 
 
