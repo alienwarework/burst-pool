@@ -2,34 +2,125 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>How Burst Pool work</title>
+    <title>BurstPay Pool</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2ba5d0">
+
+    <script src="/jquery.js" type="text/javascript"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<ul>
-    <li><b>Minimum payout is 250 Burst</b></li>
-    <li><b>Pool fee is 1.5%</b></li>
-    <li><b>Transaction fee is 0.5%</b> (or minimum 1 burst as required by the network)</li>
-    <li><b>Payment is instant when pool has positive balance</b></li>
-    <li><b>Share value reduction is 50% per block</b></li>
-        <p> if pool on current round does not find a block, miners shares are keep (up to 50 blocks),
-            but their value is reduced by 50% everytime we dont found a block.
-            when pool has positive balance, all share are summed up to block# where payment will be made,
-            and burst payment are made proportional to total share miners own up to this time
-        </p>
-    <li><b>Block forward allocation is 50%</b></li>
-        <p> if pool has a balance (lets say 10000 burst),
-            5000 are distributed for miner proportional to their shares up to current block as payment,
-            the rest 5000 burst will be allocated and paid for next round, (whether we found a block or not),
-            this allocation continue until pool balance is drained out
-        </p>
-    <li><b>No Deadline limit</b></li>
-        <p> deadline value from miner is converted into share value using this equation<br/>
-            share = 1000 / ( NetDiff * Deadline + 1 ) <sup>0.75</sup><br/>
-            where NetDiff (network difficulty) is calculated by Block0-BaseTarget / Block#N-BaseTarget<br/><br/>
-            <b>note</b> : to prevent user spamming low share, we implement share penalty of -0.001 on each submission
-            for miners who submit nonce that has higher deadline than their (current round) own best deadline, as spamming
-            low share is no use since pool will always pick one best deadline for every submitted nonce per round.
-        </p>
-</ul>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="img/logo.png" alt="Burstpay"></a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="menu-collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Dashboard</a>
+                </li>
+                <li>
+                    <a href="howto.html">How to mine</a>
+                </li>
+                <li class="active">
+                    <a href="howitwork.html">How it works</a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<section class="infobar bluebg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                Recipient:
+                <span class="addr">BURST-E4ZX-KCBL-5F8A-CPU6G</span>
+            </div>
+            <div class="col-md-6">
+                URL:
+                <span class="addr">http://pool.burstpay.net:8214</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section graybg section-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="well white">
+
+                    <h3>How it works</h3>
+                    <hr>
+                    <h4>Callouts</h4>
+
+
+                    <ul>
+                        <li><strong>Minimum payout is 250 Burst</strong></li>
+                        <li><strong>Pool fee is 1%</strong></li>
+                        <li><strong>Transaction fee is 1 BURST</strong> (or the minimum that is required by the network)</li>
+                        <li><strong>Payment is instant when pool has positive balance</strong></li>
+                        <li><strong>Share value reduction is 50% per block</strong></li>
+                        <p> If the pool on current round does not find a block, miners shares are keep (up to 500 blocks),
+                            but their value is reduced by 50% everytime we do not find a block.
+                            When the pool has positive balance, all the shares are summed up.
+                            The burst payments are proportional to the total share miners own at this time.
+                        </p>
+			<li><strong>Block Maturity is 4</strong></li>
+			<p>The payment is only sent the block has 4 confirmations</p>
+                        <li><strong>Block forward allocation is 50%</strong></li>
+                        <p> if pool has a balance (lets say 10000 burst),
+                            5000 are distributed for miner proportional to their shares up to current block as payment,
+                            the rest 5000 burst will be allocated and paid for next round, (whether we found a block or not),
+                            this allocation continue until pool balance is drained out
+                        </p>
+                        <li><strong>Target deadline: 2592000 (30 days)</strong></li>
+                        <p> deadline value from miner is converted into share value using this equation<br/>
+                            share = 1000 / ( NetDiff * Deadline + 1 ) <sup>0.75</sup><br/>
+                            where NetDiff (network difficulty) is calculated by Block0-BaseTarget / Block#N-BaseTarget<br/><br/>
+                        </p>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

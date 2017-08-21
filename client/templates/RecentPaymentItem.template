@@ -1,5 +1,5 @@
-<div class="RecentPaymentItem divRow" id="RecentPaymentItem-{{txid}}">
-    <div class="RecentPaymentItemCol divCell addr"><a href="https://blocks.fastpool.info/address/{{accountId}}">{{accountRS}}</a></div>
-    <div class="RecentPaymentItemCol divCell" id="RecentPaymentItem-Amount-{{txid}}">{{amountStr}}</div>
-    <div class="RecentPaymentItemCol divCell" id="RecentPaymentItem-Time-{{txid}}"><a href="http://burst.cryptoport.io/tx/{{txid}}">{{sendTimeStr}}</a></div>
-</div>
+<tr class="RecentPaymentItem divRow" id="RecentPaymentItem-{{txid}}">
+    <td class="RecentPaymentItemCol divCell addr"><a href="http://burst.cryptoport.io/acc/{{accountId}}">{{accountRS}}</a></td>
+    <td class="RecentPaymentItemCol divCell" id="RecentPaymentItem-Amount-{{txid}}">{{amountStr}}</td>
+    <td class="RecentPaymentItemCol divCell" id="RecentPaymentItem-Time-{{txid}}"><a href="http://burst.cryptoport.io/tx/{{txid}}">{{sendTimeStr}}</a></td>
+</tr>

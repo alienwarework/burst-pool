@@ -1,8 +1,8 @@
 var fs = require('fs');
 
-var enabled = false;
-var toConsole = false;
-var toFile = true;
+var enabled = true;
+var toConsole = true;
+var toFile = false;
 var toGeneralFile = false;
 var generalLogFilename = 'log_general.txt';
 

@@ -5,15 +5,16 @@ burstpay's burst-pool v4
 Work in progress.
 
 Roadmap:
-- Make it work on node v6/v8 and keep it updated for new versions.
-- Remove devfee
-- Remove pooling
-- Change design
 - Remove unused code
 - Increase code and wallet security
 - Add deadline limit
 - Make it ddos-resilient
 
+Changelog:
+- Added support on node v6
+- Removed devfee
+- Removed pooling from web sockets
+- Design changed
 
 Credits:
 

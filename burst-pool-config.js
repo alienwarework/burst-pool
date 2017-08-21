@@ -1,20 +1,18 @@
 module.exports = {
     wallets : [
         {
-            walletIP : '127.0.0.1',
-            walletPort : 8125,
-            walletUrl : 'http://127.0.0.1:8125'
+            walletIP : 'wallet.burstpay.net',
+            walletPort : 80,
+            walletUrl : 'https://wallet.burstpay.net'
         }
     ],
     redirection : {
         enabled : false,
-        target : 'http://lhc.ddns.net:8124'
+        target : 'http://google.com:8124'
     },
     walletIndex: 0,
-    blockMature : 1,
+    blockMature : 4,
     txFeePercent : 0.0005,
-	devFee : true,
-	devFeePercent : 0.01,
     poolFee : 0.01,
     poolDiff : 1000000,
     poolDiffCurve : 0.75,
@@ -25,7 +23,7 @@ module.exports = {
        poolFeePaymentAddr : '17572168194578653714',
     defaultPaymentDeadline : 1440,
     poolFeePaymentTxFeeNQT : 100000000,
-    httpPort : 80,
+    httpPort : 8080,
     websocketPort : 4443,
     enablePayment : true,
     minimumPayout : 250.0,
@@ -33,7 +31,7 @@ module.exports = {
     lastSessionFile : 'last-session.json',
     cumulativeFundReduction : 0.5,
     logWebsocketToConsole : false,
-    maxRoundCount : 97,
+    maxRoundCount : 500,
     sharePenalty : 0.001,
     maxRecentPaymentHistory : 50
 };

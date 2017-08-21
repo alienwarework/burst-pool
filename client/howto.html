@@ -2,37 +2,158 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>How to mine at Burst Pool</title>
+    <title>BurstPay Pool</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2ba5d0">
+
+    <script src="/jquery.js" type="text/javascript"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<b>first thing</b> : You need a plot that was generated for your own account (just like on solo mining) <br/>
-please read <a href="https://bitcointalk.org/index.php?topic=731923.0">forum</a> how to generate plot
 
-<ul>
-    <li>Run your burst client (<a href="https://s3-ap-southeast-1.amazonaws.com/burst-mirror/burst_1.0.3.zip">wallet</a>) </li>
-    <li>Using your browser go to <pre>http://127.0.0.1:8125/rewardassignment.html</pre> </li>
-    <li>on the bottom ( see "Set reward recipient" ) </li>
-    <li>Put your account secret passphrase there (the one you use to login into your wallet)</li>
-    <li>set recipient as <pre>10745596296835956940</pre> </li>
-    <li>click submit, then wait for 4 block </li>
-    <li>now you can close your wallet </li>
-    <li>Download miner <a href="https://s3-ap-southeast-1.amazonaws.com/burst-mirror/burst-pool-miner-r2.zip">[ java7 : win,osx,linux ]</a> or
-           <a href="https://s3-ap-southeast-1.amazonaws.com/burst-mirror/dcct-pool-miner-r2.tgz">[ dcct-miner : linux-x64 ]</a></li>
-</ul>
-<br/>
-<b>[ ---- for java miner ---- ] </b><br/>
-<ul>
-    <li>Please read Readme.txt first, and make sure you have <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">java 7</a> installed </li>
-    <li>Edit run_mine.sh (or run_mine.bat on windows), set url to <pre>http://burst-pool.cryptoport.io:8124</pre> </li>
-    <li>run miner (run_mine.sh or run_mine.bat) </li>
-</ul>
-<b>[ ---- for dcct linux miner ---- ] </b><br/>
-<ul>
-    <li>there are executable included, but you might need to recompile it by yourself, to compile run <pre>make dcct-miner</pre> </li>
-    <li>to run this miner <pre>./dcct-miner burst-pool.cryptoport.io 8124 /path/to/plots/dir/</pre> </li>
-    <li>you can add one or more plots just add more path at the end of command line ( dont forget to add trailing '/')</li>
-</ul>
-<br>
-if you encounter some network issue like "Unable to get mining info from wallet" or "failed to submit nonce", you can try to use our alternative port at 80, so your url will be <pre>http://burst-pool.cryptoport.io</pre> or <pre>burst-pool.cryptoport.io 80 [path]</pre>for dcct-miner
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse"
+                    aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="img/logo.png" alt="Burstpay"></a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="menu-collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Dashboard</a>
+                </li>
+                <li class="active">
+                    <a href="howto.html">How to mine</a>
+                </li>
+                <li>
+                    <a href="howitwork.html">How it works</a>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<section class="infobar bluebg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                Recipient:
+                <span class="addr">BURST-E4ZX-KCBL-5F8A-CPU6G</span>
+            </div>
+            <div class="col-md-6">
+                URL:
+                <span class="addr">http://pool.burstpay.net:8214</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section graybg section-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="well white">
+
+                    <h3>How to start mining</h3>
+                    <hr>
+                    <h4>Callouts</h4>
+
+
+                    <strong>first thing</strong> : You need a plot that was generated for your own account (just like on
+                    solo mining) <br/>
+                    please read
+                    <a href="https://bitcointalk.org/index.php?topic=731923.0">forum</a>
+                    how to
+                    generate plot
+                    <ul>
+                        <li>Run your burst client</li>
+                        <li>Using your browser go to
+                            <pre>http://127.0.0.1:8125/rewardassignment.html</pre>
+                            or
+                            <pre>https://wallet.burstpay.net/rewardassignment.html</pre>
+                        </li>
+                        <li>on the bottom ( see "Set reward recipient" )</li>
+                        <li>Put your account secret passphrase there (the one you use to login into your
+                            wallet)
+                        </li>
+                        <li>set recipient as
+                            <pre>BURST-E4ZX-KCBL-5F8A-CPU6G</pre>
+                        </li>
+                        <li>click submit, then wait for 4 block(~20 minutes)</li>
+                        <li>now you can close your wallet</li>
+                        <li>Download jMiner
+                            <a href="https://github.com/de-luxe/burstcoin-jminer/releases">[
+                                java8 : win,osx,linux ]
+                            </a>
+                            or
+                            <a href="https://github.com/rakmmo/burst-miner/releases">[
+                                dcct-miner : linux-x64 ]
+                            </a>
+                        </li>
+                    </ul>
+                    <br/>
+                    <strong>[ ---- for jMiner ---- ] </strong><br/>
+                    <ul>
+                        <li>Please read Readme.txt first, and make sure you have java installed
+                        </li>
+                        <li>Edit jminer.properties, set:
+                        </li>
+                        <li>poolMining=true</li>
+			<li>plotPaths=/home/plot1,/home/plot2...</li>
+			<li>numericAccountId=YOUR_ACCOUNT_ID</li>
+			<li>targetDeadline=2592000</li>
+			<li>poolServer=http://pool.burstpay.net:8124</li>
+
+                    </ul>
+                    <strong>[ ---- for dcct linux miner ---- ] </strong><br/>
+                    <ul>
+                        <li>there are executable included, but you might need to recompile it by yourself, to
+                            compile run
+                            <pre>make dcct-miner</pre>
+                        </li>
+                        <li>to run this miner
+                            <pre>./dcct-miner pool.burstpay.net 8124 /path/to/plots/dir/</pre>
+                        </li>
+                        <li>you can add one or more plots just add more path at the end of command line ( dont
+                            forget to add trailing '/')
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

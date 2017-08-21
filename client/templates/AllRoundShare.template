@@ -1,6 +1,11 @@
-<div class="AllRoundItem divRow" id="AllRoundItem-{{accountId}}">
-    <div class="AllRoundItemCol divCell addr"><a href="https://blocks.fastpool.info/address/{{accountId}}">{{accountRS}}</a></div>
-    <div class="AllRoundItemCol divCell" id="AllRoundItem-Deadline-{{accountId}}">{{deadlineStr}}</div>
-    <div class="AllRoundItemCol divCell" id="AllRoundItem-Share-{{accountId}}">{{share}}</div>
-    <div class="AllRoundItemCol divCell" id="AllRoundItem-Count-{{accountId}}">[ {{roundCount}} ]</div>
-</div>
+<tr id="AllRoundItem-{{accountId}}">
+    <td><a target="_blank" href="http://burstcoin.be/account/{{accountId}}">{{accountRS}}</a></td>
+    <td id="AllRoundItem-Deadline-{{accountId}}">{{deadlineStr}}</td>
+    <td id="CurrentRoundItem-Deadline-{{accountId}}">{{deadlineStrCur}}</td>
+
+    <td id="AllRoundItem-Share-{{accountId}}">{{share}}</td>
+    <td id="CurrentRoundItem-Share-{{accountId}}">{{shareCur}}</td>
+    <td id="CurrentRoundItem-Capacity-{{accountId}}">~{{capacityHuman}}</td>
+
+    <td id="AllRoundItem-Count-{{accountId}}">[ {{roundCount}} ]</td>
+</tr>

@@ -153,7 +153,6 @@ function initWebsocketServer(newClientHandler){
         'pingTimeout' : 60000,
         'allowUpgrades' : true,
         'transports': [
-            'polling',
             'websocket'
         ]
     };

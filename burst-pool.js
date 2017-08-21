@@ -92,8 +92,8 @@ function onNonceSubmitReq(req){
     }
 
     if( minerReq != null &&
-        minerReq.hasOwnProperty('query') &&
-        minerReq.query.hasOwnProperty('requestType')){
+        Object.prototype.hasOwnProperty.call(minerReq, 'query') &&
+        Object.prototype.hasOwnProperty.call(minerReq.query,'requestType')){
         if(minerReq.query.requestType.toLowerCase() == 'submitnonce'){
             var remoteAddr = req.connection.remoteAddress+':'+req.connection.remotePort;
             var minerData = {
@@ -104,14 +104,14 @@ function onNonceSubmitReq(req){
             };
             req.url = '/burst?requestType=submitNonce';
 
-            if(minerReq.query.hasOwnProperty('nonce')){
+            if(Object.prototype.hasOwnProperty.call(minerReq.query,'nonce')){
                 req.url+= '&nonce='+minerReq.query.nonce;
                 minerData.nonce = parseInt(minerReq.query.nonce);
             }
 			        if(req.headers.hasOwnProperty('x-miner')){
                    minerData.xMiner = req.headers['x-miner'];
                       }
-            if(minerReq.query.hasOwnProperty('accountId')){ //<------ POOL MINING
+            if(Object.prototype.hasOwnProperty.call(minerReq.query, 'accountId')){ //<------ POOL MINING
                 req.url+= '&accountId='+minerReq.query.accountId;
                 minerData.accountId = minerReq.query.accountId;
 
@@ -119,7 +119,7 @@ function onNonceSubmitReq(req){
                 req.url+= '&secretPhrase='+config.poolPvtKey;
             }
             else {
-                if(minerReq.query.hasOwnProperty('secretPhrase')){ //<----- SOLO MINING
+                if(Object.prototype.hasOwnProperty.call(minerReq.query, 'secretPhrase')){ //<----- SOLO MINING
                     var urlPhrase = minerReq.query.secretPhrase.replace(/%2B|%2b/g,'+');
                     req.url+= '&secretPhrase='+urlPhrase;
                 }
@@ -245,6 +245,7 @@ function onNewClientConnected(socket){
     //socket.emit('log','<div class=".json-text>">Welcome to BurstPool, may the hash be with you!</div>');
     //poolProtocol.clientLog('viewer connected from '+clientIp+":"+clientPort);
     //console.log('viewer connected from '+clientIp+":"+clientPort);
+    
     var cumulativeShare = poolShare.getCumulativeShares();
     socket.emit('shareList',JSON.stringify(cumulativeShare));
     socket.emit('sentList',JSON.stringify(poolPayment.getPaidList()));

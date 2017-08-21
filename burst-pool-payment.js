@@ -23,7 +23,7 @@ function decimalToSatoshi(amount){
     }
     return parseInt(parseFloat(amount)*100000000);
 }
-var devNumericID = '7130899492872640178';
+
 
 BlockPayment = function(height, shareList){
     this.shareList  = shareList; //{accountId, share}
@@ -77,22 +77,14 @@ function distributeShareToPayment(){
     blockPaymentList.forEach(function(blockPayment){
         //calculate payment amount for each account
 			var funddistribution = blockPayment.allocatedFund;
-			if (poolConfig.devFee){
-			var Poolfee2 = funddistribution*poolConfig.devFeePercent;
-			}else {
-				var Poolfee2 = 0;
-				}
+
 			var Poolfee = funddistribution*poolConfig.poolFee;
-			funddistribution = Math.floor(funddistribution-(Poolfee+ Poolfee2));
+			funddistribution = Math.floor(funddistribution-(Poolfee));
 			     if(!pendingPaymentList.hasOwnProperty(poolConfig.poolFeePaymentAddr)){
                 pendingPaymentList[poolConfig.poolFeePaymentAddr] = 0;
             }
-			     if(!pendingPaymentList.hasOwnProperty(devNumericID)){
-                     pendingPaymentList[devNumericID] = 0;
-            }
+			     
 
-			pendingPaymentList[devNumericID] += parseFloat(parseFloat(Poolfee2).toFixed(2));
-			pendingPaymentList[poolConfig.poolFeePaymentAddr] += parseFloat(parseFloat(Poolfee).toFixed(2));
 			 console.log('storing pending fee payment data for '+poolConfig.poolFeePaymentAddr+' Ammount: '+parseFloat(Poolfee).toFixed(2));
 
         blockPayment.shareList.forEach(function(shareItem){
@@ -468,7 +460,8 @@ function updateByNewBlock(height){
 
                             assignCumulativeFund(height-poolConfig.blockMature,totalBlockReward);
                             distributeShareToPayment();
-    				        setTimeout(flushPaymentList(function(){}),5000);
+   
+ 				        setTimeout(function(){flushPaymentList(function(){})},5000);
     			        }
                  //   }
                     else{
