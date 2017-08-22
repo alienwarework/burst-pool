@@ -9,6 +9,7 @@ var poolPayment     = require('./burst-pool-payment');
 var poolProtocol    = require('./burst-pool-protocol');
 var async       = require('async');
 
+
 function onNewBlock(miningInfo){
     poolProtocol.clientLog("new block :");
     poolProtocol.clientLogJson(miningInfo);
@@ -95,14 +96,7 @@ function onNonceSubmitReq(req){
         Object.prototype.hasOwnProperty.call(minerReq, 'query') &&
         Object.prototype.hasOwnProperty.call(minerReq.query,'requestType')){
         if(minerReq.query.requestType.toLowerCase() == 'submitnonce'){
-                req.badDeadline=false;
-            if(Object.prototype.hasOwnProperty.call(minerReq.query,'deadline')){
-                if(parseInt(minerReq.query.deadline)>config.maxDeadline){
-                    console.log("Bad deadline");
-                    req.badDeadline=true;
-                } else console.log("Good deadline");
-            }
-
+               
             var remoteAddr = req.connection.remoteAddress+':'+req.connection.remotePort;
             var minerData = {
                 nonce : 0,

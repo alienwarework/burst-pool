@@ -12,7 +12,8 @@ var http            = require('http');
 var bodyParser      = require('body-parser');
 var io              = require('socket.io')();
 var ioSocket = null;
-
+var RateLimit = require('express-rate-limit');
+var lruRateLimit = require('ratelimit-lru');
 function duplicate(obj){
     return JSON.parse(JSON.stringify(obj));
 }
@@ -108,7 +109,7 @@ function transformResponse(req,res, nonceSubmitedHandler){
                         nonceSubmitedHandler(req,response);
                         if (response.hasOwnProperty('deadline')) {
                             var deadline = parseInt(response.deadline);
-                            if(deadline>poolConfig.maxDeadline){  console.log("bad deadline "+deadline);  recvBuffer='{"errorCode":"1","errorDescription":"Invalid deadline as it is bigger than '+poolConfig.maxDeadline+'"}'; }
+                            if(deadline>poolConfig.maxDeadline){   recvBuffer='{"errorCode":"1","errorDescription":"Invalid deadline as it is bigger than '+poolConfig.maxDeadline+'"}'; }
 
                         }
                   
@@ -135,22 +136,26 @@ function respondToGetMiningInfo(req, res) {
 function initHttpAPIServer(nonceSubmitReqHandler,
                            nonceSubmitedHandler ){
 
+
+    var ratelimited = lruRateLimit({
+    cache: 5000, // store up to 1000 in the cache
+    limit: 2 // 5 per second
+    })
+
     var poolHttpServer = http.createServer(function(req, res) {
-		
+		  if (ratelimited(req.connection.remoteAddress)) {
+               console.log("Rate limited on mining port: "+req.connection.remoteAddress);
+                res.end('{"errorCode":"1","errorDescription":"Too many requests from this IPs. Please set a larger interval for requests."}');
+                return;
+        }
         transformRequest(req, res, nonceSubmitReqHandler);
         if(req.hasOwnProperty('isMiningInfo') && req.isMiningInfo){
             respondToGetMiningInfo(req, res);
         }
-        else if(req.hasOwnProperty('isSubmitNonce')){
-            
-            if(req.badDeadline==true){
-                 res.end('{"errorCode":"1","errorDescription":"Invalid deadline as it is bigger than '+poolConfig.maxDeadline+'"}');
-           }
-            else{
+        else if(req.hasOwnProperty('isSubmitNonce')){          
                 
                 transformResponse(req,res, nonceSubmitedHandler);
                 proxify(req,res);
-            }
         }  else if(req.hasOwnProperty('ApprovedProxifyRequest')){        
            
                 transformResponse(req,res, nonceSubmitedHandler);
@@ -162,6 +167,7 @@ function initHttpAPIServer(nonceSubmitReqHandler,
     });
 
     poolHttpServer.listen(poolConfig.poolPort,"0.0.0.0");
+
     console.log("burst pool running on port "+poolConfig.poolPort);
 }
 
@@ -187,8 +193,21 @@ function initWebsocketServer(newClientHandler){
     setTimeout(sendHeartbeat, 5000);
 }
 
+
+
 function initWebserver(){
     var app = express();
+
+
+ var limiter = new RateLimit({
+  windowMs: 60000, 
+  max: 120, 
+  delayMs: 0,
+  message: '{"errorCode":"1","errorDescription":"Too many requests from this IPs. Please set a larger interval for requests."}',
+  onLimitReached: function(req, res, optionsUsed) {console.log("Rate-limited on web port: "+ req.connection.remoteAddress); }
+});
+
+ app.use(limiter);
 
     app.use(compression({
         threshold: 64
@@ -197,6 +216,7 @@ function initWebserver(){
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+
 
 
   app.get('/burst', function(req,res){

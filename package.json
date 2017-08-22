@@ -16,6 +16,8 @@
         "express" : "4.x",
         "compression" : "*",
         "moment" : "*",
-        "body-parser" : "*"
+	"express-rate-limit": "*",
+        "body-parser" : "*",
+	"ratelimit-lru": "*"
     }
 }
