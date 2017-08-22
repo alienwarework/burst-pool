@@ -95,6 +95,13 @@ function onNonceSubmitReq(req){
         Object.prototype.hasOwnProperty.call(minerReq, 'query') &&
         Object.prototype.hasOwnProperty.call(minerReq.query,'requestType')){
         if(minerReq.query.requestType.toLowerCase() == 'submitnonce'){
+                req.badDeadline=false;
+            if(Object.prototype.hasOwnProperty.call(minerReq.query,'deadline')){
+                if(parseInt(minerReq.query.deadline)>config.maxDeadline){
+                    req.badDeadline=true;
+                }
+            }
+
             var remoteAddr = req.connection.remoteAddress+':'+req.connection.remotePort;
             var minerData = {
                 nonce : 0,
@@ -142,6 +149,8 @@ function onNonceSubmitedRes(req,res){
             req.minerData.hasOwnProperty('accountId')) {
 
             var deadline = parseInt(res.deadline);
+            if(deadline>config.maxDeadline){ return; }
+
             var accountId = req.minerData.accountId;
             process.nextTick(function(){
                 req.minerData.deadline = deadline;

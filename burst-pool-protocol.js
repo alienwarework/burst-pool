@@ -21,6 +21,7 @@ function clientLogFormatted(str){
 }
 
 function initWalletProxy(){
+    
     for(var i=0 ; i<poolConfig.wallets.length ; i++){
         poolConfig.wallets[i].proxy = httpProxy.createProxyServer({});
         poolConfig.wallets[i].proxy.on('error', function (err, req, res) {
@@ -32,6 +33,7 @@ function initWalletProxy(){
 }
 
 function proxify(req, res){
+    
     if(poolConfig.walletIndex < poolConfig.wallets.length){
         try{
             var proxy = poolConfig.wallets[poolSession.getWalletNdx()].proxy;
@@ -76,9 +78,7 @@ function transformRequest(req, res, nonceSubmitReqHandler){
             }
             reqBody = '';
         }
-	//	var     minerReq = url.parse(req ,true);
-		//console.log(req.body)
-		  //   clientLog(req	);
+
         doRedirection(req,reqBody);
     });
     nonceSubmitReqHandler(req);
@@ -102,15 +102,19 @@ function transformResponse(req,res, nonceSubmitedHandler){
                 }
                 else{
                     var response = JSON.parse(recvBuffer);
-					  
+                    
 						
                     if(req.isSubmitNonce === true) {
                         nonceSubmitedHandler(req,response);
+                        if (response.hasOwnProperty('deadline')) {
+                            var deadline = parseInt(response.deadline);
+                            if(deadline>poolConfig.maxDeadline){ recvBuffer="Invalid deadline as it's bigger than "+poolConfig.maxDeadline; }
+
+                        }
+                  
                     }
-						 //console.log(recvBuffer);
-                    //else if(req.isMiningInfo === true){
-                    //    recvBuffer = miningInfoHandler(response);
-                    //}
+	
+
                 }
             }
         }
@@ -137,9 +141,18 @@ function initHttpAPIServer(nonceSubmitReqHandler,
         if(req.hasOwnProperty('isMiningInfo') && req.isMiningInfo){
             respondToGetMiningInfo(req, res);
         }
-        else{
-            transformResponse(req,res, nonceSubmitedHandler);
-            proxify(req,res);
+        else if(req.hasOwnProperty('isSubmitNonce')){
+            
+            if(req.badDeadline==true){
+                 res.end('{"result":"failed","info":"The deadline is higher than '+poolConfig.maxDeadline+'"}');
+           }
+            else{
+                transformResponse(req,res, nonceSubmitedHandler);
+                proxify(req,res);
+            }
+                
+        } else {
+            res.end("Invalid request");
         }
     });
 
@@ -179,6 +192,8 @@ function initWebserver(){
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+
+    console.log("accessed initwebserver");
 
   app.get('/burst', function(req,res){
         //setTimeout(function(){
@@ -275,7 +290,7 @@ function clientUnicastLog(socket,str){
 module.exports = {
     start : function(nonceSubmitReqHandler, nonceSubmitedHandler, newClientHandler){
         try{
-            http.globalAgent.maxSockets = 100;
+            http.globalAgent.maxSockets = 1000;
             initWebserver();
             initWalletProxy();
             initHttpAPIServer(nonceSubmitReqHandler, nonceSubmitedHandler);
@@ -313,3 +328,4 @@ module.exports = {
         }
     }
 };
+

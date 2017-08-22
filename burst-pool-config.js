@@ -1,9 +1,9 @@
 module.exports = {
     wallets : [
         {
-            walletIP : 'wallet.burstpay.net',
-            walletPort : 80,
-            walletUrl : 'https://wallet.burstpay.net'
+            walletIP : 'wallet2.burstpay.net',
+            walletPort : 8125,
+            walletUrl : 'http://wallet2.burstpay.net:8125'
         }
     ],
     redirection : {
@@ -33,7 +33,9 @@ module.exports = {
     logWebsocketToConsole : false,
     maxRoundCount : 500,
     sharePenalty : 0.001,
-    maxRecentPaymentHistory : 50
+    maxRecentPaymentHistory : 50,
+    maxDeadline: 2592000
+
 };
 
 /*

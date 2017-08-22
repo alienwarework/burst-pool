@@ -152,6 +152,7 @@ function getMiningInfo(done){
             };
             if (!error3 && res3.statusCode == 200) {
                 var miningInfo = JSON.parse(body3);
+                miningInfo.targetDeadline=Math.round(config.maxDeadline);
                 result.status = true;
                 result.msg = miningInfo;
                 miningInfoCache = miningInfo;
