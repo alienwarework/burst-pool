@@ -108,7 +108,7 @@ function transformResponse(req,res, nonceSubmitedHandler){
                         nonceSubmitedHandler(req,response);
                         if (response.hasOwnProperty('deadline')) {
                             var deadline = parseInt(response.deadline);
-                            if(deadline>poolConfig.maxDeadline){ recvBuffer="Invalid deadline as it's bigger than "+poolConfig.maxDeadline; }
+                            if(deadline>poolConfig.maxDeadline){  console.log("bad deadline "+deadline);  recvBuffer='{"errorCode":"1","errorDescription":"Invalid deadline as it is bigger than '+poolConfig.maxDeadline+'"}'; }
 
                         }
                   
@@ -144,14 +144,19 @@ function initHttpAPIServer(nonceSubmitReqHandler,
         else if(req.hasOwnProperty('isSubmitNonce')){
             
             if(req.badDeadline==true){
-                 res.end('{"result":"failed","info":"The deadline is higher than '+poolConfig.maxDeadline+'"}');
+                 res.end('{"errorCode":"1","errorDescription":"Invalid deadline as it is bigger than '+poolConfig.maxDeadline+'"}');
            }
             else{
+                
                 transformResponse(req,res, nonceSubmitedHandler);
                 proxify(req,res);
             }
-                
+        }  else if(req.hasOwnProperty('ApprovedProxifyRequest')){        
+           
+                transformResponse(req,res, nonceSubmitedHandler);
+                proxify(req,res);
         } else {
+            
             res.end("Invalid request");
         }
     });
@@ -193,7 +198,6 @@ function initWebserver(){
         extended: true
     }));
 
-    console.log("accessed initwebserver");
 
   app.get('/burst', function(req,res){
         //setTimeout(function(){

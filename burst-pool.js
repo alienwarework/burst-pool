@@ -98,8 +98,9 @@ function onNonceSubmitReq(req){
                 req.badDeadline=false;
             if(Object.prototype.hasOwnProperty.call(minerReq.query,'deadline')){
                 if(parseInt(minerReq.query.deadline)>config.maxDeadline){
+                    console.log("Bad deadline");
                     req.badDeadline=true;
-                }
+                } else console.log("Good deadline");
             }
 
             var remoteAddr = req.connection.remoteAddress+':'+req.connection.remotePort;
@@ -138,7 +139,10 @@ function onNonceSubmitReq(req){
         }
         else if(minerReq.query.requestType.toLowerCase() == 'getmininginfo'){
             req.isMiningInfo = true;
+        } else if(minerReq.query.requestType.toLowerCase() == 'getrewardrecipient'||minerReq.query.requestType.toLowerCase() == 'getblock'||minerReq.query.requestType.toLowerCase() == 'getblockchainstatus'||minerReq.query.requestType.toLowerCase() == 'getaccount'||minerReq.query.requestType.toLowerCase() == 'getaccountidsofrewardrecipient'||minerReq.query.requestType.toLowerCase() == 'getaccountswithrewardrecipient'){
+            req.ApprovedProxifyRequest = true;
         }
+       // console.log(minerReq.query.requestType.toLowerCase());
     }
 
 }
