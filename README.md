@@ -6,8 +6,6 @@ Work in progress.
 
 Roadmap:
 - Remove unused code
-- Increase code and wallet security
-- Add deadline limit
 - Make it ddos-resilient
 
 Changelog:
@@ -15,6 +13,8 @@ Changelog:
 - Removed devfee
 - Removed pooling from web sockets
 - Design changed
+- Added maxDeadline limitation
+- Blocked all wallet requests except getmininginfo and submit nonce
 
 Credits:
 
