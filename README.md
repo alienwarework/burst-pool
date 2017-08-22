@@ -39,3 +39,4 @@ Uraymeiviar - Initial Development
 |"logWebsocketToConsole" | output whats sent to peoples browsers into the console window|
 |"maxRoundCount" | max rounds to display in all round shares. any that exceed this are deleted|
 |"maxRecentPaymentHistory" | max lines to show in payment history|
+|"maxDeadline" | Maximum accepted deadline|
