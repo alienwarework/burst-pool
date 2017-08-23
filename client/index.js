@@ -595,7 +595,7 @@ $(document).ready(function(){
 
 
     initTemplateCache(function(){
-        var serverUrl = window.location.protocol+'//'+location.hostname+':10001';
+        var serverUrl = window.location.protocol+'//'+location.hostname+':4443';
         var socket = io.connect(serverUrl,{"force new connection":true, transports:['websocket']});
         var root = $('body');
 

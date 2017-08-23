@@ -31,7 +31,7 @@ module.exports = {
     lastSessionFile : 'last-session.json',
     cumulativeFundReduction : 0.5,
     logWebsocketToConsole : true,
-    maxRoundCount : 500,
+    maxRoundCount : 10,
     sharePenalty : 0.001,
     maxRecentPaymentHistory : 50,
     maxDeadline: 2592000

@@ -114,8 +114,8 @@ function distributeShareToPayment(){
   //  for(var accountId in accountList){
        // poolShare.deleteAccountShare(accountId);
   //  }
-	poolShare.deleteRoundShareByDistance(poolConfig.blockMature-1);
-
+ 
+	//poolShare.deleteRoundShareByDistance(poolConfig.blockMature-1);
 
     blockPaymentList = [];
 }

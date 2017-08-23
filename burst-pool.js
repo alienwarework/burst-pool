@@ -195,7 +195,7 @@ function onNonceSubmitedRes(req,res){
 					 minerPic = '<img src="cat_tied.png" alt="'+req.minerData.xMiner+' " style="width:20px;height:20px;">'
 					  }
                  //   poolProtocol.clientLog("new best deadline : #"+poolSession.getCurrentBlockHeight());
-                       poolProtocol.clientLogFormatted('<span class="logLine time">'+getDateTime()+'</span>'+minerPic+'<span class="logLine"> Best deadline = </span><span class="logLine deadline">'+moment.duration(req.minerData.deadline*1000).humanize(false)+'</span><span class="logLine"> by Burst ID: </span><span class="logLine accountName"><a href="https://block.burstcoin.info/acc.php?acc='+req.minerData.accountId+'" target=_blank>'+req.minerData.accountId+'</a></span>');
+                       poolProtocol.clientLogFormatted('<span class="logLine time">'+getDateTime()+'</span>'+minerPic+'<span class="logLine"> Best deadline = </span><span class="logLine deadline">'+moment.duration(req.minerData.deadline*1000).humanize(false)+'</span><span class="logLine"> by Burst ID: </span><span class="logLine accountName"><a href="http://burstcoin.be/account/'+req.minerData.accountId+'" target=_blank>'+req.minerData.accountId+'</a></span>');
            
                 }
                 if(sessionState.current.bestDeadline == -1){
@@ -219,7 +219,7 @@ function onNonceSubmitedRes(req,res){
 					 minerPic = '<img src="cat_tied.png" alt="'+req.minerData.xMiner+' " style="width:20px;height:20px;">'
 					  }
                     //poolProtocol.clientLog("new best deadline : #"+poolSession.getCurrentBlockHeight());
-                   poolProtocol.clientLogFormatted('<span class="logLine time">'+getDateTime()+'</span>'+minerPic+'<span class="logLine"> Best deadline = </span><span class="logLine deadline">'+moment.duration(req.minerData.deadline*1000).humanize(false)+'</span><span class="logLine"> by Burst ID: </span><span class="logLine accountName"><a href="https://block.burstcoin.info/acc.php?acc='+req.minerData.accountId+'" target=_blank>'+req.minerData.accountId+'</a></span>');
+                   poolProtocol.clientLogFormatted('<span class="logLine time">'+getDateTime()+'</span>'+minerPic+'<span class="logLine"> Best deadline = </span><span class="logLine deadline">'+moment.duration(req.minerData.deadline*1000).humanize(false)+'</span><span class="logLine"> by Burst ID: </span><span class="logLine accountName"><a href="http://burstcoin.be/account/'+req.minerData.accountId+'" target=_blank>'+req.minerData.accountId+'</a></span>');
            
                 }
             });
@@ -240,8 +240,8 @@ function onMiningInfoUpdate(res){
 function onNewClientConnected(socket){
     var clientIp   = socket.request.connection.remoteAddress;
     var clientPort = socket.request.connection.remotePort;
-
-    socket.on('chat', function(msg){
+    if(clientIp===undefined) clientIp="User";
+    socket.on('chat', function(msg){    
         onWebsocketClientChat(clientIp,msg);
     });
 
@@ -249,10 +249,7 @@ function onNewClientConnected(socket){
         //console.log('viewer disconnected from '+clientIp+":"+clientPort);
     });
 
-    //socket.emit('log','<div class=".json-text>">Welcome to BurstPool, may the hash be with you!</div>');
-    //poolProtocol.clientLog('viewer connected from '+clientIp+":"+clientPort);
-    //console.log('viewer connected from '+clientIp+":"+clientPort);
-    
+
     var cumulativeShare = poolShare.getCumulativeShares();
     socket.emit('shareList',JSON.stringify(cumulativeShare));
     socket.emit('sentList',JSON.stringify(poolPayment.getPaidList()));

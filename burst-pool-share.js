@@ -127,8 +127,11 @@ AccountShare.prototype.getShareOnBlock = function(height){
 AccountShare.prototype.deleteRoundShareByDistance = function(distance){
     if(this.prevRoundShare.length > distance){
         var blockExpired = this.currentRoundShare.height - distance;
+        console.log('Account '+this.currentRoundShare.accountId+' share below Block#'+blockExpired+' is expired');
+
         poolProtocol.clientLog('Account '+this.currentRoundShare.accountId+' share below Block#'+blockExpired+' is expired');
         this.prevRoundShare.splice(distance,this.prevRoundShare.length - distance);
+         
     }
 };
 

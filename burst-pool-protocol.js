@@ -138,8 +138,8 @@ function initHttpAPIServer(nonceSubmitReqHandler,
 
 
     var ratelimited = lruRateLimit({
-    cache: 5000, // store up to 1000 in the cache
-    limit: 2 // 5 per second
+    cache: 5000, 
+    limit: 5 
     })
 
     var poolHttpServer = http.createServer(function(req, res) {
