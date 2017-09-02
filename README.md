@@ -15,12 +15,22 @@ Changelog:
 - Design changed
 - Added maxDeadline limitation
 - Blocked all wallet requests except getmininginfo and submit nonce
+- Added clearingBonus to empty pool's wallet and to give bonuses.
+- Fixed mature blocks winning and paying notifications
+- Added poolcapacity and miners capacity
+- Replaced shares with percentages
+- Reworked the share allocation to split the blockreward clearly between current round and historic shares
+- Fixed user IP on chat
+- Added an emit to send all current round shares on first user connection
+- Added pending payments as total and per user 
 
 Credits:
 
 Lexicon - Various fixes and development 
 
 Uraymeiviar - Initial Development
+
+tross - Beta testing and feature support
 
 
 **Config**
@@ -35,8 +45,9 @@ Uraymeiviar - Initial Development
 |"poolPublicRS" | pool public BURST- Address|
 |"poolPublic" | Pool numerical burst address|
 |"poolFeePaymentAddr" | where the fees for Pool Fee should get sent|
-|"cumulativeFundReduction" | % to reserve for each prior round.|
+|"cumulativeFundReduction" | % to go to historic shares|
 |"logWebsocketToConsole" | output whats sent to peoples browsers into the console window|
 |"maxRoundCount" | max rounds to display in all round shares. any that exceed this are deleted|
 |"maxRecentPaymentHistory" | max lines to show in payment history|
 |"maxDeadline" | Maximum accepted deadline|
+|"clearingBonus" | If the pool has a balance larger than 3 times the blockreward, it distributes part of it as block reward (0.2 = 20%)|

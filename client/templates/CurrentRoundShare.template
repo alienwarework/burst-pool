@@ -1,6 +1,6 @@
 <tr class="CurrentRoundItem divRow" id="CurrentRoundItem-{{accountId}}">
     <td class="CurrentRoundItemCol divCell addr"><a href="http://burstcoin.be/account/{{accountId}}">{{accountRS}}</a></td>
     <td class="CurrentRoundItemCol divCell" id="CurrentRoundItem-Deadline-{{accountId}}">{{deadlineStr}}</td>
+    <td class="CurrentRoundItemCol divCell" id="CurrentRoundItem-SharePercent-{{accountId}}">{{sharepercent}}</td>
     <td class="CurrentRoundItemCol divCell" id="CurrentRoundItem-Share-{{accountId}}">{{share}}</td>
-    <td class="CurrentRoundItemCol divCell" id="CurrentRoundItem-Share-{{accountId}}">{{balance}}</td>
 </tr>

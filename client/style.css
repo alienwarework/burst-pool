@@ -169,3 +169,8 @@ body{font-family:"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;}
     color: #FFF;
     border-color: #f3ac25;
 }
+
+#lastSentTx td {
+    padding: 3px;
+    font-size: 14px;
+}

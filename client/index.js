@@ -16,13 +16,13 @@
     x();"bottom"===a.start?(c.css({top:b.outerHeight()-c.outerHeight()}),n(0,!0)):"top"!==a.start&&(n(e(a.start).position().top,null,!0),a.alwaysVisible||c.hide());window.addEventListener?(this.addEventListener("DOMMouseScroll",v,!1),this.addEventListener("mousewheel",v,!1)):document.attachEvent("onmousewheel",v)}});return this}});e.fn.extend({slimscroll:e.fn.slimScroll})})(jQuery);
 
 
-
-
+var historicShares=0;
+var TotalShares=0;
 
 //JS
 
 $.ajaxSetup({
-    cache: true
+    cache: false
 });
 
 var templateCache = {};
@@ -51,9 +51,36 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+function roundpercentage(){
+var rowList = $('#roundShares');
+TotalShares=0;
+var listitems = rowList.find('.CurrentRoundItem').get();
+listitems.forEach(function (item){
+var id = $(item).attr('id').split('-')[1];
+
+var v = parseFloat($('#CurrentRoundItem-Share-'+id).text());
+
+TotalShares+=v;
+
+});
+
+listitems.forEach(function (item){
+var id = $(item).attr('id').split('-')[1];
+var share = parseFloat($('#CurrentRoundItem-Share-'+id).text());
+var percent=((share/TotalShares)*100).toFixed(2)+" %";
+$('#CurrentRoundItem-SharePercent-'+id).text(percent);
+});
+
+}
+
+
 function sortRowList(containerId,childClass,childValueIdPrefix){
     var rowList = $('#'+containerId);
-    var listitems = rowList.children('.'+childClass).get();
+// console.log(rowList);
+    var listitems = rowList.find('.'+childClass).get();
+// // console.log(childClass);
+// console.log(listitems);
+
     listitems.sort(function(a, b) {
         var id_a = $(a).attr('id').split('-')[1];
         var id_b = $(b).attr('id').split('-')[1];
@@ -61,15 +88,28 @@ function sortRowList(containerId,childClass,childValueIdPrefix){
         var value_b = parseFloat($('#'+childValueIdPrefix+'-'+id_b).text());
         return value_b - value_a;
     });
-    $.each(listitems, function(idx, itm) { rowList.append(itm); });
+	// console.log(listitems);
+
+ // console.log(listitems);
+    $.each(listitems, function(idx, itm) {
+      rowList.append(itm);
+      // console.log("appended:" + itm);
+    });
 }
 
 function onShareList(jsonData){
     $('#shareList').empty();
+
+renderTemplate('/templates/AllRoundShareHeader.template', data, function(html){
+                $('#shareList').prepend(html);
+            });
+
+
     var nxt = new NxtAddress();
+
     for(var accountId in jsonData){
         var data = jsonData[accountId];
-        data.share = data.share.toFixed(2);
+        data.share = ((data.share/historicShares)*100).toFixed(2);
         if(data.deadline == -1){
             data.deadline = "----";
             data.deadlineStr = "----";
@@ -122,9 +162,10 @@ function onSentList(jsonData){
 
 var userBalance = {};
 function onRoundShare(jsonData){
-    jsonData.share = jsonData.share.toFixed(2);
-    jsonData.balance = '---';
+jsonData.sharepercent = '---';
 
+jsonData.share = jsonData.share.toFixed(2);
+    jsonData.balance = '---';
     if(jsonData.deadline == -1){
         jsonData.deadline = "----";
         jsonData.deadlineStr = "----";
@@ -150,6 +191,7 @@ function onRoundShare(jsonData){
             if(nxt.set(jsonData.accountId)){
                 jsonData.accountRS = nxt.toString();
             }
+
             var rowHtml = Mustache.render(template, jsonData);
             $('#roundShares').prepend(rowHtml);
         });
@@ -158,7 +200,7 @@ function onRoundShare(jsonData){
         $('#CurrentRoundItem-Deadline-'+jsonData.accountId).html(jsonData.deadlineStr);
         $('#CurrentRoundItem-Share-'+jsonData.accountId).html(jsonData.share);
     }
-
+roundpercentage();
     sortRowList('roundShares','CurrentRoundItem','CurrentRoundItem-Share');
 }
 
@@ -560,22 +602,31 @@ function updateRoundTime(){
         var bestDeadline  = miningInfo.bestDeadline*1000;
         var targetTime    = roundStart + bestDeadline;
         var elapsed       = currentTime - roundStart;
-
+	var pendingbalance= miningInfo.poolPendingBalance;
 
         var progress      = 100 * elapsed / bestDeadline;
 
         $("#r-progressbar").width(progress + '%');
-
+	
         var momentDeadline = moment.utc(bestDeadline).format("HH:mm:ss.S");
         var momentElapsed  = moment.utc(elapsed).format("HH:mm:ss.S");
+	var netPB=miningInfo.netDiff/1024;
+	var poolPB=0;
+	 poolPB=(miningInfo.poolCapacity/1048576).toFixed(2);
 
+	//if(miningInfo.totalShare>0) TotalShares=miningInfo.totalShare;
+	historicShares=miningInfo.historicShares;	
         // $('#BlocktimeGauge').data('easyPieChart').update(progress);
         $('#BestDeadlineLabel').html(momentDeadline);
         $('#RoundElapseTimeLabel').html(momentElapsed);
         $('#CurrentBlockLabel').html(miningInfo.height);
-        $('#NetDiffLabel').html(miningInfo.netDiff.toFixed(1));
+        $('#NetDiffLabel').html(netPB.toFixed(0));
         $('#MinersLabel').html(miningInfo.submitters);
-        $('#TotalShareLabel').html(miningInfo.totalShare.toFixed(3));
+       $('#poolPendingBalanceLabel').html(pendingbalance);
+	if(poolPB>0) $('#poolCapacityLabel').html(poolPB);
+	$('#poolBalanceLabel').html(miningInfo.poolBalance);
+	// $('#TotalShareLabel').html(miningInfo.totalShare.toFixed(3));
+	
     }
 }
 
@@ -651,7 +702,7 @@ $(document).ready(function(){
 
                    socket.on('submitNonce', function(data){
                        var jsonData = JSON.parse(data);
-                       console.log(jsonData);
+                      //  console.log(jsonData);
                    });
 
         $('#chatInput').keypress(function(e) {
@@ -682,5 +733,3 @@ $(function () {
         alwaysVisible: true
     });
 });
-
-

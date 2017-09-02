@@ -98,14 +98,9 @@
                             When the pool has positive balance, all the shares are summed up.
                             The burst payments are proportional to the total share miners own at this time.
                         </p>
+
 			<li><strong>Block Maturity is 4</strong></li>
 			<p>The payment is only sent the block has 4 confirmations</p>
-                        <li><strong>Block forward allocation is 50%</strong></li>
-                        <p> if pool has a balance (lets say 10000 burst),
-                            5000 are distributed for miner proportional to their shares up to current block as payment,
-                            the rest 5000 burst will be allocated and paid for next round, (whether we found a block or not),
-                            this allocation continue until pool balance is drained out
-                        </p>
                         <li><strong>Target deadline: 2592000 (30 days)</strong></li>
                         <p> deadline value from miner is converted into share value using this equation<br/>
                             share = 1000 / ( NetDiff * Deadline + 1 ) <sup>0.75</sup><br/>

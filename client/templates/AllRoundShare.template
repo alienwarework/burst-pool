@@ -1,11 +1,7 @@
-<tr id="AllRoundItem-{{accountId}}">
+<tr class="AllRoundItem" id="AllRoundItem-{{accountId}}">
     <td><a target="_blank" href="http://burstcoin.be/account/{{accountId}}">{{accountRS}}</a></td>
     <td id="AllRoundItem-Deadline-{{accountId}}">{{deadlineStr}}</td>
-    <td id="CurrentRoundItem-Deadline-{{accountId}}">{{deadlineStrCur}}</td>
-
-    <td id="AllRoundItem-Share-{{accountId}}">{{share}}</td>
-    <td id="CurrentRoundItem-Share-{{accountId}}">{{shareCur}}</td>
-    <td id="CurrentRoundItem-Capacity-{{accountId}}">~{{capacityHuman}}</td>
-
-    <td id="AllRoundItem-Count-{{accountId}}">[ {{roundCount}} ]</td>
-</tr>
+    <td id="AllRoundItem-Share-{{accountId}}">{{share}}%</td>
+    <td id="AllRoundItem-Balance-{{accountId}}">{{balance}}</td>
+    <td id="AllRoundItem-Capacity-{{accountId}}">{{capacity}} TB</td>
+    <td id="AllRoundItem-Count-{{accountId}}">[ {{roundCount}} ]</td> </tr>

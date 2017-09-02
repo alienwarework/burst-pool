@@ -2,8 +2,8 @@ var fs = require('fs');
 
 var enabled = true;
 var toConsole = true;
-var toFile = false;
-var toGeneralFile = false;
+var toFile = true;
+var toGeneralFile = true;
 var generalLogFilename = 'log_general.txt';
 
 function TimeStamp() {
