@@ -9,6 +9,7 @@ Roadmap:
 - Make it ddos-resilient
 
 Changelog:
+
 02.09.2017:
 - Added clearingBonus to empty pool's wallet and to give bonuses.
 - Fixed mature blocks winning and paying notifications
