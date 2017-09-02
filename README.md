@@ -9,12 +9,7 @@ Roadmap:
 - Make it ddos-resilient
 
 Changelog:
-- Added support on node v6
-- Removed devfee
-- Removed pooling from web sockets
-- Design changed
-- Added maxDeadline limitation
-- Blocked all wallet requests except getmininginfo and submit nonce
+02.09.2017:
 - Added clearingBonus to empty pool's wallet and to give bonuses.
 - Fixed mature blocks winning and paying notifications
 - Added poolcapacity and miners capacity
@@ -23,6 +18,15 @@ Changelog:
 - Fixed user IP on chat
 - Added an emit to send all current round shares on first user connection
 - Added pending payments as total and per user 
+
+Initial Release:
+- Added support on node v6
+- Removed devfee
+- Removed pooling from web sockets
+- Design changed
+- Added maxDeadline limitation
+- Blocked all wallet requests except getmininginfo and submit nonce
+
 
 Credits:
 
