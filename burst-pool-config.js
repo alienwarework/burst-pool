@@ -1,9 +1,9 @@
 module.exports = {
     wallets : [
         {
-            walletIP : 'wallet2.burstpay.net',
+            walletIP : '127.0.0.1',
             walletPort : 8125,
-            walletUrl : 'http://wallet2.burstpay.net:8125'
+            walletUrl : 'http://127.0.0.1:8125'
         }
     ],
     redirection : {
