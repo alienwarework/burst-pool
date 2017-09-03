@@ -17,7 +17,7 @@ module.exports = {
     poolDiff : 1000000,
     poolDiffCurve : 0.75,
     poolPort : 8124,
-    poolPvtKey : 'flat enter consume dart dress thread chill came pink drop distance blend', 
+    poolPvtKey : 'passphrase', 
      poolPublicRS : 'BURST-MJHZ-LPEP-TEAN-3C8MK',
        poolPublic : '1787025894957236735',
        poolFeePaymentAddr : '12039060282554059773',
